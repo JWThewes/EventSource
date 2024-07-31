@@ -49,7 +49,17 @@ public struct EventSource {
         DataTask(
             urlRequest: urlRequest,
             messageParser: messageParser,
-            timeoutInterval: timeoutInterval
+            timeoutInterval: timeoutInterval,
+            urlSession: nil
+        )
+    }
+    
+    public func dataTask(for urlRequest: URLRequest, with urlSession: URLSession) -> DataTask {
+        DataTask(
+            urlRequest: urlRequest,
+            messageParser: messageParser,
+            timeoutInterval: timeoutInterval,
+            urlSession: urlSession
         )
     }
 }
@@ -93,11 +103,13 @@ public extension EventSource {
         internal init(
             urlRequest: URLRequest,
             messageParser: MessageParser,
-            timeoutInterval: TimeInterval
+            timeoutInterval: TimeInterval,
+            urlSession: URLSession?
         ) {
             self.urlRequest = urlRequest
             self.messageParser = messageParser
             self.timeoutInterval = timeoutInterval
+            self.urlSession = urlSession
         }
         
         public func events() -> AsyncStream<EventType> {
@@ -106,11 +118,13 @@ public extension EventSource {
                     close()
                 }
                 
-                urlSession = URLSession(
-                    configuration: urlSessionConfiguration,
-                    delegate: sessionDelegate,
-                    delegateQueue: nil
-                )
+                if(urlSession == nil) {
+                    urlSession = URLSession(
+                        configuration: urlSessionConfiguration,
+                        delegate: sessionDelegate,
+                        delegateQueue: nil
+                    )
+                }
                 
                 sessionDelegate.onEvent = { event in
                     switch event {
