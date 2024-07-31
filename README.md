@@ -75,6 +75,9 @@ for await event in dataTask.events() {
 
 Use `dataTask.cancel()` to explicitly close the connection. However, in that case `.closed` event won't be emitted.
 
+## mTLS
+...
+
 ## Compatibility
 
 * macOS 10.15+
