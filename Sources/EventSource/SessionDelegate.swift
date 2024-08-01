@@ -11,7 +11,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-public class SessionDelegate: NSObject, URLSessionDataDelegate {
+open class SessionDelegate: NSObject, URLSessionDataDelegate {
     enum Event {
         case didCompleteWithError(Error?)
         case didReceiveResponse(URLResponse, (URLSession.ResponseDisposition) -> Void)
