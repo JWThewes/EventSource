@@ -11,7 +11,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-final class SessionDelegate: NSObject, URLSessionDataDelegate {
+public class SessionDelegate: NSObject, URLSessionDataDelegate {
     enum Event {
         case didCompleteWithError(Error?)
         case didReceiveResponse(URLResponse, (URLSession.ResponseDisposition) -> Void)
@@ -20,7 +20,7 @@ final class SessionDelegate: NSObject, URLSessionDataDelegate {
     
     var onEvent: (Event) -> Void = { _ in }
     
-    func urlSession(
+    public func urlSession(
         _ session: URLSession,
         task: URLSessionTask,
         didCompleteWithError error: Error?
@@ -28,7 +28,7 @@ final class SessionDelegate: NSObject, URLSessionDataDelegate {
         onEvent(.didCompleteWithError(error))
     }
     
-    func urlSession(
+    public func urlSession(
         _ session: URLSession,
         dataTask: URLSessionDataTask,
         didReceive response: URLResponse,
@@ -37,7 +37,7 @@ final class SessionDelegate: NSObject, URLSessionDataDelegate {
         onEvent(.didReceiveResponse(response, completionHandler))
     }
     
-    func urlSession(
+    public func urlSession(
         _ session: URLSession,
         dataTask: URLSessionDataTask,
         didReceive data: Data
